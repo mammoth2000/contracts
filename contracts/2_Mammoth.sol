@@ -15,8 +15,8 @@ import "contracts/interfaces/IUniswapV2Router02.sol";
 import "contracts/interfaces/IERC20.sol";
 
 // custom internal contracts
-import "contracts/MammothGraveyard.sol";
-import "contracts/MammothLiquidityDrive.sol";
+import "contracts/Graveyard.sol";
+import "contracts/LiquidityDrive.sol";
 
 contract Mammoth is Context, IERC20, Ownable {
     using SafeMath for uint256;
