@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract MammothLiquidityDrive is Context, Ownable {
+contract LiquidityDrive is Context, Ownable {
     using SafeMath for uint256;
     using Address for address;
 

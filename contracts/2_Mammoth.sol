@@ -52,10 +52,10 @@ contract Mammoth is Context, IERC20, Ownable {
     uint256 public _liquidityFee = 5;
     uint256 private _previousLiquidityFee = _liquidityFee;
 
-    MammothLiquidityDrive public liquidityDrive;
+    LiquidityDrive public liquidityDrive;
     uint256 public immutable _campaignPeriod;
 
-    MammothGraveyard public graveyard;
+    Graveyard public graveyard;
 
     IUniswapV2Router02 public immutable uniswapV2Router;
     address public immutable uniswapV2Pair;
@@ -103,11 +103,11 @@ contract Mammoth is Context, IERC20, Ownable {
         uniswapV2Router = _uniswapV2Router;
 
         //create the liquidity drive; 25% of the supply
-        liquidityDrive = new MammothLiquidityDrive(25);
+        liquidityDrive = new LiquidityDrive(25);
         _campaignPeriod = campaignPeriod;
 
         //create the graveyard
-        graveyard = new MammothGraveyard();
+        graveyard = new Graveyard();
         
         //exclude owner and this contract from fee
         _isExcludedFromFee[owner()] = true;

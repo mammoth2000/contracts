@@ -11,7 +11,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 //The graveyard is a step above a simple burn address 
 //It will serve the community by collecting a redistributing fees
 //Oscillatig between 50-51%
-contract MammothGraveyard is Context, Ownable {
+contract Graveyard is Context, Ownable {
     using SafeMath for uint256;
     using Address for address;
 
