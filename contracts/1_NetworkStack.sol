@@ -9,12 +9,13 @@ import "contracts/libs/SafeMath.sol";
 
 // interfaces
 import "contracts/libs/Initializable.sol";
+import "contracts/libs/Admin.sol";
 import "contracts/interfaces/IUniswapV2Factory.sol";
 import "contracts/interfaces/IUniswapV2Pair.sol";
 import "contracts/interfaces/IUniswapV2Router02.sol";
 import "contracts/interfaces/Token.sol";
 
-contract NetworkStack is Ownable, Initializable {
+contract NetworkStack is Ownable, Initializable, Adminable {
 
     using SafeMath for uint;
 
@@ -189,7 +190,7 @@ contract NetworkStack is Ownable, Initializable {
   //  address public graveyardAddress = address(0xF7cC784BD260eafC1193D337fFcEA4D6ddA0dd71);
   //  address public router = address(0x10ED43C718714eb63d5aA57B78B54704E256024E); 
 
-      constructor() Ownable() {
+      constructor() Ownable() Adminable() {
     }
 
 
@@ -233,7 +234,7 @@ contract NetworkStack is Ownable, Initializable {
     }
     
     //If enabled  the mammothReserve is funded
-    function enableBuyback(bool enable) onlyOwner public {
+    function enableBuyback(bool enable) onlyAdmin public {
         buybackEnabled = enable;
     }
     
