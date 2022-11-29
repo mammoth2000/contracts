@@ -10,6 +10,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 // libs
 import "contracts/libs/Whitelist.sol";
+import "contracts/libs/Admin.sol";
 
 // interfaces
 import "contracts/interfaces/IUniswapV2Factory.sol";
@@ -17,7 +18,7 @@ import "contracts/interfaces/IUniswapV2Pair.sol";
 import "contracts/interfaces/IUniswapV2Router02.sol";
 
 
-contract IvoryReserve_NOT_DONE is Whitelist {
+contract IvoryReserve_NOT_DONE is Whitelist, Adminable {
 
     IUniswapV2Router02 private uniswapV2Router;
 
@@ -40,7 +41,7 @@ contract IvoryReserve_NOT_DONE is Whitelist {
     mapping(address => Mints) private lastMinted;
     uint256 public processingFee;
     
-    constructor(address _collateralRouter, address _BUSD) Ownable()  {
+    constructor(address _collateralRouter, address _BUSD) Ownable() Adminable() {
     collateralRouter =    _collateralRouter;
     BUSD =  _BUSD;
     uniswapV2Router = IUniswapV2Router02(collateralRouter);
@@ -92,25 +93,25 @@ contract IvoryReserve_NOT_DONE is Whitelist {
         
     }
 
-    function updateRedeemData(address _redeemData) onlyOwner public {
+    function updateRedeemData(address _redeemData) onlyAdmin public {
         require(_redeemData != address(0), "cant be zero address");
         redeemData = _redeemData;
     }
 
      // there is a raffel, there must be a write to this contract upon mint, raffel is not verified
-    function updateRaffle(address _raffle) onlyOwner public {
+    function updateRaffle(address _raffle) onlyAdmin public {
         require(_raffle != address(0), "cant be zero address");
         raffle = _raffle;
     }
 
     // seems this is where BUSD is sent to (treasury)
-    function updateCollateralTreasury(address _collateralTreasury) onlyOwner public {
+    function updateCollateralTreasury(address _collateralTreasury) onlyAdmin public {
         require(_collateralTreasury != address(0), "cant be zero address");
         collateralTreasury = _collateralTreasury;
     }
 
         // seems this is where BUSD is sent to (treasury)
-    function updateBackedTreasury(address _backedTreasury) onlyOwner public {
+    function updateBackedTreasury(address _backedTreasury) onlyAdmin public {
         require(_backedTreasury != address(0), "cant be zero address");
         backedTreasury = _backedTreasury;
     }
@@ -118,7 +119,7 @@ contract IvoryReserve_NOT_DONE is Whitelist {
 
     // mintdata is a seperate contract, no known abi.. assuming it handles who minted when and how much
 
-    function updateMintdata(address _mintData) onlyOwner public {
+    function updateMintdata(address _mintData) onlyAdmin public {
         require(_mintData != address(0), "cant be zero address");
         mintData = _mintData;
     }
@@ -152,7 +153,7 @@ contract IvoryReserve_NOT_DONE is Whitelist {
 
 
     // there is no update on original contract, not sure what this fee is for
-    function updateProcessingFee(uint256 _processingFee) onlyOwner public {
+    function updateProcessingFee(uint256 _processingFee) onlyAdmin public {
         processingFee = _processingFee;
     }
 

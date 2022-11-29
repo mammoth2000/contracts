@@ -6,10 +6,10 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 // libs
 import "contracts/libs/SafeMath.sol";
-
-// interfaces
 import "contracts/libs/Initializable.sol";
 import "contracts/libs/Admin.sol";
+
+// interfaces
 import "contracts/interfaces/IUniswapV2Factory.sol";
 import "contracts/interfaces/IUniswapV2Pair.sol";
 import "contracts/interfaces/IUniswapV2Router02.sol";
@@ -193,14 +193,23 @@ contract NetworkStack is Ownable, Initializable, Adminable {
       constructor() Ownable() Adminable() {
     }
 
+    // _tokenAddress = ivory, 
+    // _tokenRouter = pancakerouter
+    // _fee was 0 on initial
+    // _payout was 100 on initial
+    // _mammothAddress 
+    // _graveyardAddress
+    // _router = pancakerouter why? deleted
 
-    function initialize(address _tokenAddress, address _tokenRouter, uint8 _fee, uint8 _payout, address _mammothAddress, address _graveyardAddress, address _router)  public initializer {
+
+
+    function initialize(address _tokenAddress, address _tokenRouter, uint8 _fee, uint8 _payout, address _mammothAddress, address _graveyardAddress)  public initializer {
         require(_tokenAddress != address(0) && _tokenRouter != address(0), "Token and liquidity router must be set");
         require(_fee <= 90 && _payout <= 100, "fee and payout must be properly set, fee <= 90 and payout <= 10");
 
         mammothAddress =  _mammothAddress;
         graveyardAddress = _graveyardAddress;
-        router = _router;
+        router = _tokenRouter;
 
         entryFee_ = _fee;
         exitFee_ = _fee;

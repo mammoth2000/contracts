@@ -45,7 +45,7 @@ contract LiquidityDrive is Context, Ownable {
 
     
 
-    constructor (uint256 _estimatedPercentageOfSupply) public {
+    constructor (uint256 _estimatedPercentageOfSupply) {
         require(_estimatedPercentageOfSupply > 0 && _estimatedPercentageOfSupply <= 35, "estimate not in range"); 
 
         //get a handle on the token
@@ -65,7 +65,7 @@ contract LiquidityDrive is Context, Ownable {
     }
 
 
-    function  donate() public payable notLaunched returns (uint256) {
+    function  donate() public payable notLaunched {
         
         require(msg.value >= 0.01 ether, "Minimum donation is 0.1");
 
@@ -87,7 +87,7 @@ contract LiquidityDrive is Context, Ownable {
 
     }
 
-    function  claimTokens() external returns (uint256) {
+    function  claimTokens() external {
         require(endedOn > 0, "Token not launched yet");
         
         address _sender = _msgSender();

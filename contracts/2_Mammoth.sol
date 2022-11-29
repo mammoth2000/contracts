@@ -15,18 +15,19 @@ import "contracts/interfaces/IUniswapV2Router02.sol";
 import "contracts/interfaces/IERC20.sol";
 
 // custom internal contracts
-import "contracts/Graveyard.sol";
-import "contracts/LiquidityDrive.sol";
+import "contracts/5_Graveyard.sol";
+import "contracts/6_LiquidityDrive.sol";
 
-contract Mammoth is Context, IERC20, Ownable {
+//libs
+import "contracts/libs/Initializable.sol";
+import "contracts/libs/Admin.sol";
+
+contract Mammoth is Context, IERC20, Ownable, Initializable, Adminable {
     using SafeMath for uint256;
     using Address for address;
 
     address public router; 
-    /* 
-    Pancake v2 Mainnet - 0x10ed43c718714eb63d5aa57b78b54704e256024e
-    Uniswap v2 Rinkeby Testnet - 0xf164fC0Ec4E93095b804a4795bBe1e041497b92a
-    */
+
     mapping (address => uint256) private _rOwned;
     mapping (address => uint256) private _tOwned;
     mapping (address => mapping (address => uint256)) private _allowances;
@@ -80,15 +81,14 @@ contract Mammoth is Context, IERC20, Ownable {
         _;
         inSwapAndLiquify = false;
     }
-    
-    constructor (string memory name, string memory symbol, address exchangeRouter, uint256 campaignPeriod) public {
-        require(bytes(name).length > 0 && bytes(symbol).length > 0, "Description information must be set");
+
+    constructor (address exchangeRouter, uint256 campaignPeriod) Ownable() Adminable() {
         require(exchangeRouter != address(0), "Exchange must be supplied");
         require(campaignPeriod >= 300, "Period must be a minimum of 300 (5 minutes)");
 
         //Core Setup
-        _name = name;
-        _symbol = symbol;
+        _name = "Mammoth";
+        _symbol = "MTH";
         router = exchangeRouter;
 
         //contract start out owning all the tokens to ensure an automated fair launch
@@ -120,7 +120,6 @@ contract Mammoth is Context, IERC20, Ownable {
         //init fair launch system
         startedOn = block.timestamp;
     }
-
    
     //FAIR LAUNCH SYSTEM
 
@@ -262,7 +261,7 @@ contract Mammoth is Context, IERC20, Ownable {
         return rAmount.div(currentRate);
     }
 
-    function excludeFromReward(address account) public onlyOwner() {
+    function excludeFromReward(address account) public onlyAdmin() {
         require(account != router, 'We can not exclude the router.');
         require(!_isExcluded[account], "Account is already excluded");
         if(_rOwned[account] > 0) {
@@ -272,7 +271,7 @@ contract Mammoth is Context, IERC20, Ownable {
         _excluded.push(account);
     }
 
-    function includeInReward(address account) external onlyOwner() {
+    function includeInReward(address account) external onlyAdmin() {
         require(_isExcluded[account], "Account is already excluded");
         for (uint256 i = 0; i < _excluded.length; i++) {
             if (_excluded[i] == account) {
@@ -296,11 +295,11 @@ contract Mammoth is Context, IERC20, Ownable {
         emit Transfer(sender, recipient, tTransferAmount);
     }
     
-     function excludeFromFee(address account) public onlyOwner {
+     function excludeFromFee(address account) public onlyAdmin {
         _isExcludedFromFee[account] = true;
     }
     
-    function includeInFee(address account) public onlyOwner {
+    function includeInFee(address account) public onlyAdmin {
         _isExcludedFromFee[account] = false;
     }
 

@@ -25,7 +25,7 @@ contract Graveyard is Context, Ownable {
         uint256 tokens
     );
 
-    constructor () public {
+    constructor () {
 
         //get a handle on the token
         token = IERC20(owner());

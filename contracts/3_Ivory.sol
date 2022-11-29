@@ -16,8 +16,9 @@ import "contracts/libs/BEP20.sol";
 import "contracts/libs/StandardToken.sol";
 import "contracts/libs/MintableToken.sol";
 import "contracts/libs/BurnableToken.sol";
+import "contracts/libs/Admin.sol";
 
-contract IvoryDollar is BurnableToken {
+contract IvoryDollar is BurnableToken, Adminable {
 
     struct Stats {
         uint256 txs;
@@ -40,11 +41,9 @@ contract IvoryDollar is BurnableToken {
     /**
      * @dev default constructor
      */
-    constructor(string memory name, string memory symbol) Ownable() public {
-        require(bytes(name).length > 0 && bytes(symbol).length > 0, "Description information must be set");
-
-        _name = name;
-        _symbol = symbol;
+    constructor() Ownable() Adminable() public {
+        _name = "Ivory";
+        _symbol = "IVY";
     }
 
     function name() public view returns (string memory) {
