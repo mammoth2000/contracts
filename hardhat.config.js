@@ -1,4 +1,5 @@
 require("@nomiclabs/hardhat-waffle");
+require("@nomiclabs/hardhat-etherscan");
 require("dotenv").config();
 
 /**
@@ -16,6 +17,12 @@ module.exports = {
       url: `https://rpcapi.fantom.network`,
       accounts: [process.env.privateKey],
     },
+    bscTest: {
+      url: `https://bsc-testnet.public.blastapi.io`,
+      gas: `auto` ,
+      gasprice: `auto` ,
+      accounts: [process.env.privateKey],
+    },
   },
   solidity: {
     compilers: [
@@ -24,4 +31,9 @@ module.exports = {
       { version: "0.6.6" }
     ]
   },
+  etherscan: {
+    apiKey: "FI4FYDT4IBJKUM6DQWJ33XGUUT74QPGQZ1"
+
+  },
+  
 };

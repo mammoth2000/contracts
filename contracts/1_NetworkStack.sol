@@ -2,19 +2,19 @@
 
 pragma solidity ^0.8.17;
 
-
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 // libs
 import "contracts/libs/SafeMath.sol";
 
 // interfaces
+import "contracts/libs/Initializable.sol";
 import "contracts/interfaces/IUniswapV2Factory.sol";
 import "contracts/interfaces/IUniswapV2Pair.sol";
 import "contracts/interfaces/IUniswapV2Router02.sol";
 import "contracts/interfaces/Token.sol";
 
-contract NetworkStack  is Ownable {
+contract NetworkStack is Ownable, Initializable {
 
     using SafeMath for uint;
 
@@ -141,6 +141,7 @@ contract NetworkStack  is Ownable {
     mapping(address => uint256) private tokenBalanceLedger_;
     mapping(address => int256) private payoutsTo_;
     mapping(address => Stats) private stats;
+
     //on chain referral tracking
     uint256 private tokenSupply_;
     uint256 private profitPerShare_;
@@ -150,7 +151,7 @@ contract NetworkStack  is Ownable {
     uint public players;
     uint public totalTxs;
     uint public dividendBalance_;
-    uint public elephantReserve_;
+    uint public mammothReserve_;
     uint public lastPayout;
     uint public totalClaims;
     uint public totalBuyBack;
@@ -161,9 +162,9 @@ contract NetworkStack  is Ownable {
     uint256 public distributionInterval = 2 seconds;
 
     address public tokenAddress;
-    address public elephantAddress =  address(0xE283D0e3B8c102BAdF5E8166B73E02D96d92F688);
-    address public graveyardAddress = address(0xF7cC784BD260eafC1193D337fFcEA4D6ddA0dd71);
-    address public router = address(0x10ED43C718714eb63d5aA57B78B54704E256024E); 
+    address public mammothAddress;
+    address public graveyardAddress;
+    address public router; 
 
     /* 
     Pancake v2 Mainnet - 0x10ed43c718714eb63d5aa57b78b54704e256024e
@@ -174,7 +175,7 @@ contract NetworkStack  is Ownable {
     IUniswapV2Router02 public  tokenUniswapV2Router;
 
     Token private token;
-    Token private elephantToken;
+    Token private mammothToken;
     Token private wethToken;
     
     bool public buybackEnabled = true; 
@@ -184,11 +185,21 @@ contract NetworkStack  is Ownable {
     /*=======================================
     =            PUBLIC FUNCTIONS           =
     =======================================*/
+  //  address public mammothAddress =  address(0xE283D0e3B8c102BAdF5E8166B73E02D96d92F688);
+  //  address public graveyardAddress = address(0xF7cC784BD260eafC1193D337fFcEA4D6ddA0dd71);
+  //  address public router = address(0x10ED43C718714eb63d5aA57B78B54704E256024E); 
 
-    constructor(address _tokenAddress, address _tokenRouter, uint8 _fee, uint8 _payout) Ownable() public {
-        
+      constructor() Ownable() {
+    }
+
+
+    function initialize(address _tokenAddress, address _tokenRouter, uint8 _fee, uint8 _payout, address _mammothAddress, address _graveyardAddress, address _router)  public initializer {
         require(_tokenAddress != address(0) && _tokenRouter != address(0), "Token and liquidity router must be set");
         require(_fee <= 90 && _payout <= 100, "fee and payout must be properly set, fee <= 90 and payout <= 10");
+
+        mammothAddress =  _mammothAddress;
+        graveyardAddress = _graveyardAddress;
+        router = _router;
 
         entryFee_ = _fee;
         exitFee_ = _fee;
@@ -197,7 +208,7 @@ contract NetworkStack  is Ownable {
         tokenAddress = _tokenAddress;
         token = Token(_tokenAddress);
 
-        elephantToken = Token(elephantAddress);
+        mammothToken = Token(mammothAddress);
 
         uniswapV2Router = IUniswapV2Router02(router);
         
@@ -215,13 +226,13 @@ contract NetworkStack  is Ownable {
 
     //Public function 
     function sweep() public {
-        if (elephantReserve_ >  0){
-                totalBuyBack = totalBuyBack.add(buyback(elephantReserve_));
-                elephantReserve_ = 0;
+        if (mammothReserve_ >  0){
+                totalBuyBack = totalBuyBack.add(buyback(mammothReserve_));
+                mammothReserve_ = 0;
         }
     }
     
-    //If enabled  the elephantReserve is funded
+    //If enabled  the mammothReserve is funded
     function enableBuyback(bool enable) onlyOwner public {
         buybackEnabled = enable;
     }
@@ -252,9 +263,9 @@ contract NetworkStack  is Ownable {
             
             tokenUniswapV2Router.swapExactTokensForTokens(
                 tokenAmount,
-                0, // accept any amount of Elephant
+                0, // accept any amount of Mammoth
                 path,
-                address(this), //send it here first so we can find out how much ELEPHANT we receieved
+                address(this), //send it here first so we can find out how much MAMMOTH we receieved
                 block.timestamp.add(1 minutes)
             );
             
@@ -267,22 +278,22 @@ contract NetworkStack  is Ownable {
         //We always have WETH sourced from the best liquidity pool for the core asset if necessary
         path = new address[](2);
         path[0] = uniswapV2Router.WETH();
-        path[1] = elephantAddress;
+        path[1] = mammothAddress;
        
         //Need to be able to approve the collateral token for transfer
         require(wethToken.approve(address(uniswapV2Router), tokenAmount));
 
         uniswapV2Router.swapExactTokensForTokensSupportingFeeOnTransferTokens(
             tokenAmount,
-            0, // accept any amount of Elephant
+            0, // accept any amount of Mammoth
             path,
-            address(this), //send it here first so we can find out how much ELEPHANT we receieved
+            address(this), //send it here first so we can find out how much MAMMOTH we receieved
             block.timestamp.add(1 minutes)
         );
 
-        //transfer elephant tokens (buyback)
-        uint _balance = elephantToken.balanceOf(address(this));
-        elephantToken.transfer(graveyardAddress, _balance);
+        //transfer mammoth tokens (buyback)
+        uint _balance = mammothToken.balanceOf(address(this));
+        mammothToken.transfer(graveyardAddress, _balance);
 
         emit onBuyBack(_balance, block.timestamp);
         return _balance;
@@ -603,7 +614,7 @@ contract NetworkStack  is Ownable {
             return;
         }
 
-        // 1/5 paid out instantly to Elephant holders
+        // 1/5 paid out instantly to Mammoth holders
         uint256 instant = fee.div(5); 
 
        
@@ -611,7 +622,7 @@ contract NetworkStack  is Ownable {
         if (buybackEnabled) {
              
              //add the instant fee to the reserve
-            elephantReserve_ = elephantReserve_.add(instant);
+            mammothReserve_ = mammothReserve_.add(instant);
             dividendBalance_ = dividendBalance_.add(fee).sub(instant);
         } else {
             //add the entire fee to the dividend balance
