@@ -53,10 +53,13 @@ contract Mammoth is Context, IERC20, Ownable, Initializable, Adminable {
     uint256 public _liquidityFee = 5;
     uint256 private _previousLiquidityFee = _liquidityFee;
 
-    LiquidityDrive public liquidityDrive;
+    address payable public  _LiquidityDrive;
+
+    LiquidityDrive public liquidityDrive = LiquidityDrive(_LiquidityDrive);
     uint256 public immutable _campaignPeriod;
 
-    Graveyard public graveyard;
+    address public  _Graveyard;
+    Graveyard public graveyard = Graveyard(_Graveyard);
 
     IUniswapV2Router02 public immutable uniswapV2Router;
     address public immutable uniswapV2Pair;
@@ -82,6 +85,11 @@ contract Mammoth is Context, IERC20, Ownable, Initializable, Adminable {
         inSwapAndLiquify = false;
     }
 
+    function initialize(address __Graveyard, address payable __LiquidityDrive)  public initializer {
+        _LiquidityDrive = __LiquidityDrive;
+        _Graveyard = __Graveyard;
+    }
+
     constructor (address exchangeRouter, uint256 campaignPeriod) Ownable() Adminable() {
         require(exchangeRouter != address(0), "Exchange must be supplied");
         require(campaignPeriod >= 300, "Period must be a minimum of 300 (5 minutes)");
@@ -103,11 +111,11 @@ contract Mammoth is Context, IERC20, Ownable, Initializable, Adminable {
         uniswapV2Router = _uniswapV2Router;
 
         //create the liquidity drive; 25% of the supply
-        liquidityDrive = new LiquidityDrive(25);
+       
         _campaignPeriod = campaignPeriod;
 
         //create the graveyard
-        graveyard = new Graveyard();
+        
         
         //exclude owner and this contract from fee
         _isExcludedFromFee[owner()] = true;

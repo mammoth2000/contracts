@@ -25,9 +25,9 @@ contract Graveyard is Context, Ownable {
         uint256 tokens
     );
 
-    constructor () {
-
-        //get a handle on the token
+    constructor (address mammothtoken)  {
+        Ownable(mammothtoken);
+        // Owner has to be mammoth token
         token = IERC20(owner());
 
         //a rebalance isn't necessary at launch

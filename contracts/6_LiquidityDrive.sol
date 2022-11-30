@@ -20,7 +20,7 @@ contract LiquidityDrive is Context, Ownable {
     uint256 public totalClaimableTokens;
     uint256 public totalClaimedTokens;
     uint256 public endedOn;
-    uint256 private estimatedPercentageOfSupply;
+    uint256 private estimatedPercentageOfSupply = 25;
 
     IERC20 public token; 
 
@@ -43,17 +43,9 @@ contract LiquidityDrive is Context, Ownable {
         _;
     }
 
-    
+    constructor (address mammothtoken) {
 
-    constructor (uint256 _estimatedPercentageOfSupply) {
-        require(_estimatedPercentageOfSupply > 0 && _estimatedPercentageOfSupply <= 35, "estimate not in range"); 
-
-        //get a handle on the token
-        token = IERC20(owner());
-
-        //claimable will use an estimate until the drive is over
-        estimatedPercentageOfSupply = _estimatedPercentageOfSupply;
-
+        token = IERC20(mammothtoken);
 
     }
 

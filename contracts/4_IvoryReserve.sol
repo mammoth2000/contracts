@@ -17,8 +17,8 @@ import "contracts/interfaces/IUniswapV2Factory.sol";
 import "contracts/interfaces/IUniswapV2Pair.sol";
 import "contracts/interfaces/IUniswapV2Router02.sol";
 
-
-contract IvoryReserve_NOT_DONE is Whitelist, Adminable {
+// still being reverse engineered
+contract IvoryReserve is Whitelist, Adminable {
 
     IUniswapV2Router02 private uniswapV2Router;
 
