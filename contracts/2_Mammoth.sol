@@ -72,8 +72,8 @@ contract Mammoth is Context, IERC20, Ownable, Initializable, Adminable {
     Graveyard public graveyard;
 
     function initialize(Graveyard _Graveyard, LiquidityDrive _LiquidityDrive)  public initializer {
-    graveyard = Graveyard(_Graveyard);
-    liquidityDrive = LiquidityDrive(_LiquidityDrive);
+        graveyard = Graveyard(_Graveyard);
+        liquidityDrive = LiquidityDrive(_LiquidityDrive);
 
     }
 
