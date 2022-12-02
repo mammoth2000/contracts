@@ -3,7 +3,7 @@ const hre = require("hardhat");
 async function main() {
   [owner] = await ethers.getSigners();
   console.log(`Owner: ${owner.address}`);
- const contractName = 'Graveyard';
+ const contractName = 'LiquidityDrive';
  await hre.run("compile");
  const smartContract = await hre.ethers.getContractFactory(contractName);
  const mammothToken = "0x47999C36fc6f4057E65220f03bA78582F2a6e981";

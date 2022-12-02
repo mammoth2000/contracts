@@ -167,11 +167,6 @@ contract NetworkStack is Ownable, Initializable, Adminable {
     address public graveyardAddress;
     address public router; 
 
-    /* 
-    Pancake v2 Mainnet - 0x10ed43c718714eb63d5aa57b78b54704e256024e
-    Uniswap v2 Rinkeby Testnet - 0xf164fC0Ec4E93095b804a4795bBe1e041497b92a
-    */
-
     IUniswapV2Router02 public  uniswapV2Router;
     IUniswapV2Router02 public  tokenUniswapV2Router;
 
@@ -186,9 +181,6 @@ contract NetworkStack is Ownable, Initializable, Adminable {
     /*=======================================
     =            PUBLIC FUNCTIONS           =
     =======================================*/
-  //  address public mammothAddress =  address(0xE283D0e3B8c102BAdF5E8166B73E02D96d92F688);
-  //  address public graveyardAddress = address(0xF7cC784BD260eafC1193D337fFcEA4D6ddA0dd71);
-  //  address public router = address(0x10ED43C718714eb63d5aA57B78B54704E256024E); 
 
       constructor() Ownable() Adminable() {
     }
