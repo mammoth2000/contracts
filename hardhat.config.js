@@ -13,6 +13,11 @@ module.exports = {
       gasprice: `auto` ,
       accounts: [process.env.privateKey],
     },
+    local: {
+      url: `HTTP://127.0.0.1:7545`,
+      gas: 493001600,
+      accounts: [process.env.privateKey],
+    },
   },
   solidity: {
     compilers: [
