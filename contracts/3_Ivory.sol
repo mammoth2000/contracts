@@ -41,7 +41,7 @@ contract IvoryDollar is BurnableToken, Adminable {
     /**
      * @dev default constructor
      */
-    constructor() Ownable() Adminable() public {
+    constructor() Ownable() Adminable() {
         _name = "Ivory";
         _symbol = "IVY";
     }

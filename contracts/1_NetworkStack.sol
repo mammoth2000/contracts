@@ -304,7 +304,7 @@ contract NetworkStack is Ownable, Initializable, Adminable {
 
 
     /// @dev This is how you pump pure "drip" dividends into the system
-    function donatePool(uint amount) public returns (uint256) {
+    function donatePool(uint amount) public {
         require(token.transferFrom(msg.sender, address(this),amount));
         require(tokenSupply_ > 0, "Must have supply to donate");
     
