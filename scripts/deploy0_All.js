@@ -145,6 +145,7 @@ async function main() {
 
   await mammothCaller.initialize(contract4.address, contract5.address);
 
+  // calling initialize
 
   const stackCaller = await smartContract0.attach(
       contract0.address
@@ -152,17 +153,15 @@ async function main() {
 
   await stackCaller.initialize(contract2.address, exchangeRouter, 0, 0, mammoth, contract4.address);
 
+  // transfer ownership of Liquidity Drive
 
+  const LiquidityDriveCaller = await smartContract0.attach(
+    contract0.address
+  );
 
-const LiquidityDriveCaller = await smartContract0.attach(
-  contract0.address
-);
+  await LiquidityDriveCaller.transferOwnership(mammoth);
 
-await LiquidityDriveCaller.transferOwnership(mammoth);
-
-}
-
-
+  }
 
 main()
 
