@@ -25,10 +25,10 @@ contract Graveyard is Context, Ownable {
         uint256 tokens
     );
 
-    constructor (address mammothtoken)  {
-        Ownable(mammothtoken);
+    constructor (address mammothtoken) Ownable() {
+        
         // Owner has to be mammoth token
-        token = IERC20(owner());
+        token = IERC20(mammothtoken);
 
         //a rebalance isn't necessary at launch
         lastRebalance =  block.timestamp;

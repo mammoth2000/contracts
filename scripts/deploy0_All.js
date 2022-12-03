@@ -155,12 +155,19 @@ async function main() {
 
   // transfer ownership of Liquidity Drive
 
-  const LiquidityDriveCaller = await smartContract0.attach(
-    contract0.address
+  const LiquidityDriveCaller = await smartContract5.attach(
+    contract5.address
   );
-
   await LiquidityDriveCaller.transferOwnership(mammoth);
 
+
+
+  // transfer ownership of Graveyard
+  const GraveyardCaller = await smartContract4.attach(
+      contract4.address
+  );
+  await GraveyardCaller.transferOwnership(mammoth);
+  
   }
 
 main()
