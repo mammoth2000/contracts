@@ -15,8 +15,8 @@ import "contracts/interfaces/IUniswapV2Router02.sol";
 import "contracts/interfaces/IERC20.sol";
 
 // custom internal contracts
-import "contracts/5_Graveyard.sol";
-import "contracts/6_LiquidityDrive.sol";
+import "contracts/05_Graveyard.sol";
+import "contracts/06_LiquidityDrive.sol";
 
 //libs
 import "contracts/libs/Initializable.sol";
