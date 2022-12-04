@@ -39,7 +39,7 @@ contract BackedForwardingPool  is Ownable {
     }
 
     /// @dev This is how you pump pure "drip" dividends into the system
-    function donatePool(uint amount) public returns (uint256) {
+    function donatePool(uint amount) public {
         require(backedToken.transferFrom(msg.sender, address(this),amount), "Failed to transfer backed tokens");
         
         //transfer tokens to the owner, we are done
