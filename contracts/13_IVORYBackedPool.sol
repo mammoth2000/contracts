@@ -1,4 +1,4 @@
-
+// only abi is replicated
 // SPDX-License-Identifier: Unlicensed
 
 pragma solidity ^0.8.17;
@@ -15,9 +15,6 @@ import "contracts/libs/SafeMath.sol";
 // this contracts sends IVORY to NetworkStack depending on peg and apr
 
 contract IVORYBackedPool  is Ownable {
-
-
-
 
     address public destination; // network stack
     address public registry; // contract that contains addresses of other contracts
@@ -44,6 +41,8 @@ contract IVORYBackedPool  is Ownable {
     }
 
     function sweep() public {
+
+        // if currentValue > something ?
 
     }
 
