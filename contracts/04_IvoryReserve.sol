@@ -134,10 +134,8 @@ contract IvoryReserve is Whitelist, Adminable {
         
 
         // do test if this method works, update lastMinted struct user mint and time
-
-        Mints memory s = lastMinted[msg.sender];
-        s.mintAmount = _mint;
-        s.time = block.timestamp;
+        lastMinted[msg.sender].mintAmount = _mint;
+        lastMinted[msg.sender].time = block.timestamp;
 
         // call to raffel contract
 
