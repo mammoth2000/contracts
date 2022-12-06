@@ -82,7 +82,7 @@ contract Raffle is Whitelist, Adminable  {
             uint256 finalTime;
     }
 
-        struct status {
+    struct status {
             bool running;
             uint256 currentRound;
             uint256 currentStage;
@@ -92,7 +92,7 @@ contract Raffle is Whitelist, Adminable  {
             uint256 num_participants; 
             uint256 maxContribution;
 
-        }
+    }
     
     constructor (address _sponsorData, uint256 _contractStartTime) Adminable() {
         require(_contractStartTime % roundDuration == 0, "please use midnight UTC timestamp");
@@ -105,10 +105,14 @@ contract Raffle is Whitelist, Adminable  {
     }
 
     function getWinner(uint256 _ROUND) public view returns (address)  {
-        address winner = getWinners[_ROUND];
-        return winner;
+        return getWinners[_ROUND];
 
     }
+
+    function findWinner(uint256 min, uint256 max) public view returns (uint256) {
+
+    return min.add(uint256(keccak256(abi.encodePacked(block.timestamp, min, max))) % (max - min));
+}
 
     function round()public view returns (uint256)  {
         uint256 timeDifference = block.timestamp - contractStartTime;
