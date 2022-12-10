@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.17;
 
-interface IElephantPool {
+interface IMammothPool {
 
     function donatePool(uint amount) external returns (uint256);
 

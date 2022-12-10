@@ -13,13 +13,13 @@ import "contracts/interfaces/IUniswapV2Factory.sol";
 import "contracts/interfaces/IUniswapV2Pair.sol";
 import "contracts/interfaces/IUniswapV2Router02.sol";
 import "contracts/interfaces/ITreasury.sol";
-import "contracts/interfaces/IElephantReserve.sol";
+import "contracts/interfaces/IMammothReserve.sol";
 
 // libs
 import "contracts/libs/Whitelist.sol";
 import "contracts/libs/SafeMath.sol";
-import "contracts/noui/ElephantPoolDistributor.sol";
-import "contracts/noui/ElephantDollarDistributor.sol";
+import "contracts/noui/MammothPoolDistributor.sol";
+import "contracts/noui/IvoryDollarDistributor.sol";
 
 contract BackedForwardingPool  is Ownable {
     using SafeMath for uint256;

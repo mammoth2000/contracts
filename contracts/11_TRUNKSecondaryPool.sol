@@ -10,8 +10,8 @@ import "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 
 // libs
 import "contracts/libs/Whitelist.sol";
-import "contracts/noui/ElephantPoolDistributor.sol";
-import "contracts/noui/ElephantDollarDistributor.sol";
+import "contracts/noui/MammothPoolDistributor.sol";
+import "contracts/noui/IvoryDollarDistributor.sol";
 
 
 // interfaces
@@ -20,9 +20,9 @@ import "contracts/interfaces/IUniswapV2Factory.sol";
 import "contracts/interfaces/IUniswapV2Pair.sol";
 import "contracts/interfaces/IUniswapV2Router02.sol";
 import "contracts/interfaces/ITreasury.sol";
-import "contracts/interfaces/IElephantPool.sol";
+import "contracts/interfaces/IMammothPool.sol";
 import "contracts/interfaces/IRewardPool.sol";
-import "contracts/interfaces/IElephantReserve.sol";
+import "contracts/interfaces/IMammothReserve.sol";
 
 
 contract BackedForwardingPool  is Ownable {

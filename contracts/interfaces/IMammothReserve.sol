@@ -3,7 +3,7 @@ pragma solidity ^0.8.17;
 
 
 
-interface IElephantReserve  {
+interface IMammothReserve  {
     
     
     //Mint backed tokens using collateral tokens
