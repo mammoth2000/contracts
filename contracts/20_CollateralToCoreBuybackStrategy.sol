@@ -64,7 +64,7 @@ contract CollateralToCoreBuybackStrategy is Whitelist, Adminable {
 
     }
 
-    function updateDailyAPR(uint256 APR) public {
+    function updateDailyAPR(uint256 APR) public onlyWhitelisted {
         daily_apr = APR;
 
     }
@@ -74,13 +74,13 @@ contract CollateralToCoreBuybackStrategy is Whitelist, Adminable {
 
     }
 
-            function updateLiquidityThreshold(uint256 THRESHOLD) public {
+            function updateLiquidityThreshold(uint256 THRESHOLD) public onlyWhitelisted {
         liquidityThreshold = THRESHOLD;
 
     }
 
 
-    function updateRunStatus(bool PAUSED) public {
+    function updateRunStatus(bool PAUSED) public onlyWhitelisted {
 
                 isPaused = PAUSED;
 
