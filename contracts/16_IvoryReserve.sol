@@ -20,10 +20,10 @@ import "contracts/interfaces/IUniswapV2Router02.sol";
 // still being reverse engineered
 contract IvoryReserve is Whitelist, Adminable {
 
-    IUniswapV2Router02 private uniswapV2Router;
+    // router
+    IUniswapV2Router02 public uniswapV2Router;
 
-    mapping(address => uint256) public claimableBalance;
-
+    // addresses
     address public immutable BUSD;
     address public redeemData;
     address public raffle;
@@ -32,29 +32,34 @@ contract IvoryReserve is Whitelist, Adminable {
     address public collateralRouter;
     address public mintData;
 
-    // max the user can redeem ig
+    // uint256
     uint256 public maxRedemption = 1e22;
-    
+    uint256 public processingFee;
+
+    // bool
     bool public isPaused;
 
-    // might be public instead of the function
+    // mappings
+    mapping(address => uint256) public claimableBalance;
     mapping(address => Mints) private lastMinted;
-    uint256 public processingFee;
-    
-    constructor(address _collateralRouter, address _BUSD) Ownable() Adminable() {
-    collateralRouter =    _collateralRouter;
-    BUSD =  _BUSD;
-    uniswapV2Router = IUniswapV2Router02(collateralRouter);
 
-    }
-
+    // struct
     struct Mints {
         uint256 mintAmount;
         uint256 time;
     }
 
+    // constructor
+    constructor(address _collateralRouter, address _BUSD) Ownable() Adminable() {
+        collateralRouter =    _collateralRouter;
+        BUSD =  _BUSD;
+        uniswapV2Router = IUniswapV2Router02(collateralRouter);
+    }
+
+    // view functions
+
     function lastMint (address DESTINATION)  public view returns (uint256[2] memory) {
-    // redeemdata seems to be a contract that handles redeem queue, there is a contract RedemptionSupportStrategy that is related to this contract
+        // redeemdata seems to be a contract that handles redeem queue, there is a contract RedemptionSupportStrategy that is related to this contract
         Mints memory s = lastMinted[DESTINATION];
         uint256[2] memory statArray = [s.mintAmount, s.time];
 
@@ -62,25 +67,16 @@ contract IvoryReserve is Whitelist, Adminable {
     }
 
     function estimateSwap (uint256 _INPUT)  public view returns (uint256) {
-
         // some swap calculations going on here
-
     }
 
     function estimateMint (uint256 _INPUT)  public view returns (uint256) {
-
         // some swap calculations going on here, shows as a write function ???
-
     }
-
-    
 
     function collateralizationRatio ()  public view returns (uint256) {
-
         // some calculations going on here
-
     }
-
 
     function available (address DESTINATION)  public view returns (uint256) {
         // some user stats going here
@@ -88,10 +84,12 @@ contract IvoryReserve is Whitelist, Adminable {
     }
     
     function estimateRedemption (uint256 _INPUT)  public view returns (uint256) {
-
         // some redem calculations going on here
-        
     }
+
+    // write functions
+
+    // update functions
 
     function updateRedeemData(address _redeemData) onlyAdmin public {
         require(_redeemData != address(0), "cant be zero address");
@@ -116,13 +114,19 @@ contract IvoryReserve is Whitelist, Adminable {
         backedTreasury = _backedTreasury;
     }
 
-
     // mintdata is a seperate contract, no known abi.. assuming it handles who minted when and how much
 
     function updateMintdata(address _mintData) onlyAdmin public {
         require(_mintData != address(0), "cant be zero address");
         mintData = _mintData;
     }
+
+    // there is no update on original contract, not sure what this fee is for
+    function updateProcessingFee(uint256 _processingFee) onlyAdmin public {
+        processingFee = _processingFee;
+    }
+
+    // user functions
 
     // mint does not mint tokens, it sends BUSD to treasury, updates a claimable balance, perhaps it signs the user up to the raffle in this process
     // not sure why the user is not getting tokens upon mint call
@@ -149,15 +153,6 @@ contract IvoryReserve is Whitelist, Adminable {
 
     }
 
-
-    // there is no update on original contract, not sure what this fee is for
-    function updateProcessingFee(uint256 _processingFee) onlyAdmin public {
-        processingFee = _processingFee;
-    }
-
-
-  //  function lastMint(address lastMint) public view returns (uint256) {}
-
-    
+    //  function lastMint(address lastMint) public view returns (uint256) {}
 
 }

@@ -37,9 +37,7 @@ contract FlowEngine is Whitelist, Adminable  {
     uint256 constant MAX_UINT = 2**256 - 1;
     uint256 public peanutBonus;
 
-    bool private isRunning;
-
-
+    bool public isPaused;
 
     mapping(address => UserInfo) public userInfo;
 
@@ -97,40 +95,47 @@ contract FlowEngine is Whitelist, Adminable  {
     function maxPayoutOf(uint256 _AMOUNT) public {
 
     }
+
+    // called by user
     function peanuts(uint256 _AMOUNT) public {
 
     }
-    function roll() public {
 
+    function roll() public {
+    // deposit pending rewards
     }
 
     function sponsor(address _ADDR, uint256 _AMOUNT) public {
-
+     // find out the logic behind this   
     }
 
-    function updateFlowData(address FLOWDATAADDRESS) public {
-
+    function updateFlowData(address FLOWDATAADDRESS) public onlyWhitelisted {
+        flowData = FLOWDATAADDRESS;
     }
-    function updatePeanutRaffleBonus(uint256 BONUS) public {
-
-    }
-
-    function updateRaffle(address RAFFLEADDRESS) public {
-
+    function updatePeanutRaffleBonus(uint256 BONUS) public onlyWhitelisted {
+        peanutBonus = BONUS;
     }
 
-    function updateReferralData(address REFERRALDATAADDRESS) public {
-
+    function updateRaffle(address RAFFLEADDRESS) public onlyWhitelisted {
+    raffle = RAFFLEADDRESS;        
     }
 
-    function updateReserve(address RESERVEADDRESS) public {
-
+    function updateReferralData(address REFERRALDATAADDRESS) public onlyWhitelisted {
+        referralData = REFERRALDATAADDRESS;
     }
-    function updateRunStatus(bool PAUSED) public {
 
+    function updateReserve(address RESERVEADDRESS) public onlyWhitelisted {
+        reserve = RESERVEADDRESS;
     }
-    function updateSponsorData(address SPONSORDATAADDRESS) public {
 
+
+    function updateRunStatus(bool PAUSED) public onlyWhitelisted {
+        isPaused = PAUSED;
+
+        }
+
+    function updateSponsorData(address SPONSORDATAADDRESS) public onlyWhitelisted {
+        sponsorData = SPONSORDATAADDRESS;
     }
 }
 
