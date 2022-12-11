@@ -109,10 +109,10 @@ contract Raffle is Whitelist, Adminable  {
 
     }
 
-    function findWinner(uint256 min, uint256 max) public view returns (uint256) {
-
-    return min.add(uint256(keccak256(abi.encodePacked(block.timestamp, min, max))) % (max - min));
-}
+    function findWinner(uint256 min, uint256 max) internal view {
+    // only for testing
+    uint256 winnerTicket = min.add(uint256(keccak256(abi.encodePacked(block.timestamp, min, max))) % (max - min));
+    }
 
     function round()public view returns (uint256)  {
         uint256 timeDifference = block.timestamp - contractStartTime;

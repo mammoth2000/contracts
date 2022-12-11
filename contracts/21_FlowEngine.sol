@@ -70,67 +70,67 @@ contract FlowEngine is Whitelist, Adminable  {
     uint256 _total_withdraw,
     uint256 _total_txs,
     uint256 _total_sponsorships
-) {
-    // Retrieve and return the values of the contract state variables
+        ) {
+            // Retrieve and return the values of the contract state variables
 
-}
+        }
 
-function payoutOf(address _ADDR) public view returns (uint256 payout, uint256 max_payout) {
+    function payoutOf(address _ADDR) public view returns (uint256 payout, uint256 max_payout) {
 
-}
+    }
 
-function peggedPayoutOf(address _addr) public view returns (uint256 payout, uint256 max_payout) {
+    function peggedPayoutOf(address _addr) public view returns (uint256 payout, uint256 max_payout) {
 
-}
+    }
     function scaleBusdByPeg(uint256 amount) public view returns (uint256 scaledAmount) {
 
     }
 
-function claim() public {
+    function claim() public {
 
-}
+    }
 
-function deposit(uint256 _AMOUNT) public {
+    function deposit(uint256 _AMOUNT) public {
 
-}
+    }
 
-function maxPayoutOf(uint256 _AMOUNT) public {
+    function maxPayoutOf(uint256 _AMOUNT) public {
 
-}
-function peanuts(uint256 _AMOUNT) public {
+    }
+    function peanuts(uint256 _AMOUNT) public {
 
-}
-function roll() public {
+    }
+    function roll() public {
 
-}
+    }
 
-function sponsor(address _ADDR, uint256 _AMOUNT) public {
+    function sponsor(address _ADDR, uint256 _AMOUNT) public {
 
-}
+    }
 
-function updateFlowData(address FLOWDATAADDRESS) public {
+    function updateFlowData(address FLOWDATAADDRESS) public {
 
-}
-function updatePeanutRaffleBonus(uint256 BONUS) public {
+    }
+    function updatePeanutRaffleBonus(uint256 BONUS) public {
 
-}
+    }
 
-function updateRaffle(address RAFFLEADDRESS) public {
+    function updateRaffle(address RAFFLEADDRESS) public {
 
-}
+    }
 
-function updateReferralData(address REFERRALDATAADDRESS) public {
+    function updateReferralData(address REFERRALDATAADDRESS) public {
 
-}
+    }
 
-function updateReserve(address RESERVEADDRESS) public {
+    function updateReserve(address RESERVEADDRESS) public {
 
-}
-function updateRunStatus(bool PAUSED) public {
+    }
+    function updateRunStatus(bool PAUSED) public {
 
-}
-function updateSponsorData(address SPONSORDATAADDRESS) public {
+    }
+    function updateSponsorData(address SPONSORDATAADDRESS) public {
 
-}
+    }
 }
 
