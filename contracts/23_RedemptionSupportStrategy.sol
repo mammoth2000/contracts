@@ -49,25 +49,17 @@ contract RedemptionSupportStrategy is Whitelist, Adminable  {
         coreTreasury = _coreTreasury;
         collateralRedemptionPool = _collateralRedemptionPool;
         redeemData = _redeemData;
-        
     }
 
     function estimateCoreToCollateral(uint256 _coreAmount) public view returns (uint256 wethAmount, uint256 collateralAmount) {
-
-
       return (wethAmount, collateralAmount);
-    }
+        }
 
-function available() public view returns (uint256 coreAmount, uint256 collateralAmount){
-
-    
-
-    }
+    function available() public view returns (uint256 coreAmount, uint256 collateralAmount){
+        }
 
     function sweep() public {
-
         // if currentValue > something ?
-
     }
 
     function updateDailyAPR(uint256 APR) public onlyWhitelisted {
@@ -75,34 +67,26 @@ function available() public view returns (uint256 coreAmount, uint256 collateral
 
     }
 
-
     function updateMaxJobs(uint256 JOBS) public onlyWhitelisted {
-            maxJobs = JOBS;
+        maxJobs = JOBS;
 
-        }
-
+    }
 
     function updateLiquidityThreshold(uint256 THRESHOLD) public onlyWhitelisted {
-            liquidityThreshold = THRESHOLD;
-
-        }
-
-
+        liquidityThreshold = THRESHOLD;
+    }
 
     function updateRunStatus(bool PAUSED) public onlyWhitelisted {
-    isPaused = PAUSED;
-
-        }
+        isPaused = PAUSED;
+    }
 
     function updateCollateralRouter(address _ROUTER) public onlyWhitelisted {
-    collateralRouter = _ROUTER;
+        collateralRouter = _ROUTER;
+    }
 
-        }
-
-        function updateRedeemData(address REDEEMDATAADDRESS) public onlyWhitelisted {
-            redeemData = REDEEMDATAADDRESS;
-
-        }
+    function updateRedeemData(address REDEEMDATAADDRESS) public onlyWhitelisted {
+        redeemData = REDEEMDATAADDRESS;
+     }
 
 }
 
