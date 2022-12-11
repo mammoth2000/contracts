@@ -15,7 +15,7 @@ import "contracts/libs/Admin.sol";
 
 // this contracts sends IVORY to NetworkStack depending on peg and apr
 
-contract IVORYBackedPool is Whitelist, Adminable  {
+contract PegSupportTreasuryStrategy is Whitelist, Adminable  {
 
     address public reserve; // 16_IvoryReserve
     address public backedTreasury; // 07_IvoryTreasury

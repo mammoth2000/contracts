@@ -14,7 +14,7 @@ pragma solidity ^0.8.17;
 
 
 // still being reverse engineered
-contract Raffle is Whitelist, Adminable  {
+contract FlowData is Whitelist, Adminable  {
 
     using SafeMath for uint256;
 
@@ -31,15 +31,15 @@ struct User {
 
 mapping(address => User) public users;
 
-function total_deposited_add(uint256 _amount) public {
+function total_deposited_add(uint256 _amount) public onlyWhitelisted {
   total_deposited = total_deposited.add(_amount);
 }
 
-function total_txs_incr() public {
+function total_txs_incr() public onlyWhitelisted {
   total_txs++;
 }
 
-function total_users_incr() public {
+function total_users_incr() public onlyWhitelisted {
   total_users++;
 }
 
