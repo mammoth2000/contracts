@@ -15,7 +15,8 @@ module.exports = {
     },
     local: {
       url: `HTTP://127.0.0.1:7545`,
-      gas: 493001600,
+      gas: `auto` ,
+      gasprice: `auto` ,
       accounts: [process.env.privateKey],
     },
   },

@@ -8,6 +8,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 //interfaces
 import "contracts/interfaces/IMammothReserve.sol";
+
 // libs
 import "contracts/libs/Whitelist.sol";
 import "contracts/libs/SafeMath.sol";

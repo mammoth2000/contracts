@@ -61,6 +61,8 @@ contract RedeemData is Whitelist, Adminable  {
     
     function pending(address _user) public view returns (uint256) {
 
+        return users[_user].pending;
+ 
     }
   
 
