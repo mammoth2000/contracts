@@ -1,5 +1,4 @@
-
-	// only abi is replicated
+// only abi is replicated
 // SPDX-License-Identifier: Unlicensed
 
 pragma solidity ^0.8.17;
@@ -16,8 +15,7 @@ import "contracts/libs/Admin.sol";
 
 // this contracts sends IVORY to NetworkStack depending on peg and apr
 
-contract FlowEngine is Whitelist, Adminable  {
-
+contract FlowEngine is Whitelist, Adminable {
     address public backedToken; // 03_Ivory
     address public backedTreasury; // 07_IvoryTreasury
     address public collateralToken; // BUSD
@@ -34,15 +32,14 @@ contract FlowEngine is Whitelist, Adminable  {
 
     uint256 public rollBalance; // might be a function
 
-    uint256 constant MAX_UINT = 2**256 - 1;
+    uint256 constant MAX_UINT = 2 ** 256 - 1;
     uint256 public peanutBonus;
 
     bool public isPaused;
 
     mapping(address => UserInfo) public userInfo;
 
-    mapping(address => CreditsAndDebits ) public creditsAndDebits ;
-
+    mapping(address => CreditsAndDebits) public creditsAndDebits;
 
     struct CreditsAndDebits {
         uint256 credits;
@@ -57,70 +54,66 @@ contract FlowEngine is Whitelist, Adminable  {
         uint256 total_sponsorship;
     }
 
+    function claimsAvailable(address _ADDR) public view returns (address) {}
 
-    function claimsAvailable (address _ADDR) public view returns(address){
-    
+    function contractInfo()
+        public
+        view
+        returns (
+            uint256 _total_users,
+            uint256 _total_deposited,
+            uint256 _total_withdraw,
+            uint256 _total_txs,
+            uint256 _total_sponsorships
+        )
+    {
+        // Retrieve and return the values of the contract state variables
     }
 
-    function contractInfo() public view returns (
-    uint256 _total_users,
-    uint256 _total_deposited,
-    uint256 _total_withdraw,
-    uint256 _total_txs,
-    uint256 _total_sponsorships
-        ) {
-            // Retrieve and return the values of the contract state variables
+    function payoutOf(
+        address _ADDR
+    ) public view returns (uint256 payout, uint256 max_payout) {}
 
-        }
+    function peggedPayoutOf(
+        address _addr
+    ) public view returns (uint256 payout, uint256 max_payout) {}
 
-    function payoutOf(address _ADDR) public view returns (uint256 payout, uint256 max_payout) {
+    function scaleBusdByPeg(
+        uint256 amount
+    ) public view returns (uint256 scaledAmount) {}
 
-    }
+    function claim() public {}
 
-    function peggedPayoutOf(address _addr) public view returns (uint256 payout, uint256 max_payout) {
+    function deposit(uint256 _AMOUNT) public {}
 
-    }
-    function scaleBusdByPeg(uint256 amount) public view returns (uint256 scaledAmount) {
-
-    }
-
-    function claim() public {
-
-    }
-
-    function deposit(uint256 _AMOUNT) public {
-
-    }
-
-    function maxPayoutOf(uint256 _AMOUNT) public {
-
-    }
+    function maxPayoutOf(uint256 _AMOUNT) public {}
 
     // called by user
-    function peanuts(uint256 _AMOUNT) public {
-
-    }
+    function peanuts(uint256 _AMOUNT) public {}
 
     function roll() public {
-    // deposit pending rewards
+        // deposit pending rewards
     }
 
     function sponsor(address _ADDR, uint256 _AMOUNT) public {
-     // find out the logic behind this   
+        // find out the logic behind this
     }
 
     function updateFlowData(address FLOWDATAADDRESS) public onlyWhitelisted {
         flowData = FLOWDATAADDRESS;
     }
+
     function updatePeanutRaffleBonus(uint256 BONUS) public onlyWhitelisted {
         peanutBonus = BONUS;
     }
 
     function updateRaffle(address RAFFLEADDRESS) public onlyWhitelisted {
-    raffle = RAFFLEADDRESS;        
+        raffle = RAFFLEADDRESS;
     }
 
-    function updateReferralData(address REFERRALDATAADDRESS) public onlyWhitelisted {
+    function updateReferralData(
+        address REFERRALDATAADDRESS
+    ) public onlyWhitelisted {
         referralData = REFERRALDATAADDRESS;
     }
 
@@ -128,14 +121,13 @@ contract FlowEngine is Whitelist, Adminable  {
         reserve = RESERVEADDRESS;
     }
 
-
     function updateRunStatus(bool PAUSED) public onlyWhitelisted {
         isPaused = PAUSED;
+    }
 
-        }
-
-    function updateSponsorData(address SPONSORDATAADDRESS) public onlyWhitelisted {
+    function updateSponsorData(
+        address SPONSORDATAADDRESS
+    ) public onlyWhitelisted {
         sponsorData = SPONSORDATAADDRESS;
     }
 }
-

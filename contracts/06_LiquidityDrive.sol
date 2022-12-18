@@ -1,4 +1,3 @@
-
 // SPDX-License-Identifier: Unlicensed
 
 pragma solidity ^0.8.17;
@@ -12,53 +11,41 @@ contract LiquidityDrive is Context, Ownable {
     using SafeMath for uint256;
     using Address for address;
 
-
     //FAIR LAUNCH
     uint256 public totalEthDonated;
-    mapping (address => uint256) private _ethDonated;
-    mapping (address => uint256) private _claimed;
+    mapping(address => uint256) private _ethDonated;
+    mapping(address => uint256) private _claimed;
     uint256 public totalClaimableTokens;
     uint256 public totalClaimedTokens;
     uint256 public endedOn;
     uint256 private estimatedPercentageOfSupply = 25;
 
-    IERC20 public token; 
+    IERC20 public token;
 
     uint256 public participants;
     uint256 public totalTxs;
 
-    event LiquidityDonation(
-        address from,
-        uint256 donation
-    );
+    event LiquidityDonation(address from, uint256 donation);
 
-    event TokenClaim(
-        address from,
-        uint256 tokens
-    );
+    event TokenClaim(address from, uint256 tokens);
 
-
-    modifier notLaunched {
+    modifier notLaunched() {
         require(endedOn == 0, "Token already succcessfully launched");
         _;
     }
 
-    constructor (address mammothtoken) {
-
+    constructor(address mammothtoken) {
         token = IERC20(mammothtoken);
-
     }
 
-     /**
+    /**
      * @dev Receive function to handle ETH that was send straight to the contract
      */
     receive() external payable {
         require(false, "Do not send funds directly to this contract");
     }
 
-
-    function  donate() public payable notLaunched {
-        
+    function donate() public payable notLaunched {
         require(msg.value >= 0.01 ether, "Minimum donation is 0.1");
 
         address _sender = _msgSender();
@@ -68,7 +55,7 @@ contract LiquidityDrive is Context, Ownable {
         if (_ethDonated[_sender] == 0) {
             participants = participants.add(1);
         }
-        
+
         //add donation
         _ethDonated[_sender] = _ethDonated[_sender].add(_value);
         totalEthDonated = totalEthDonated.add(_value);
@@ -76,17 +63,19 @@ contract LiquidityDrive is Context, Ownable {
         emit LiquidityDonation(_sender, _value);
 
         totalTxs = totalTxs.add(1);
-
     }
 
-    function  claimTokens() external {
+    function claimTokens() external {
         require(endedOn > 0, "Token not launched yet");
-        
+
         address _sender = _msgSender();
 
         //check if there are tokens to claim
         require(_ethDonated[_sender] > 0, "No donations made prior to launch");
-        require(_claimed[_sender] == 0, "This account has already claimed tokens");
+        require(
+            _claimed[_sender] == 0,
+            "This account has already claimed tokens"
+        );
 
         uint256 tokens = availableOf(_sender);
         _claimed[_sender] = tokens;
@@ -99,11 +88,13 @@ contract LiquidityDrive is Context, Ownable {
         totalClaimedTokens = totalClaimedTokens.add(tokens);
 
         totalTxs = totalTxs.add(1);
+    }
 
-    } 
-
-    function end() onlyOwner notLaunched external {
-        require(token.balanceOf(address(this)) > 0, "Tokens must be transfered to the drive before it can be ended");
+    function end() external onlyOwner notLaunched {
+        require(
+            token.balanceOf(address(this)) > 0,
+            "Tokens must be transfered to the drive before it can be ended"
+        );
 
         //donations will no longer be processed
         endedOn = block.timestamp;
@@ -117,17 +108,20 @@ contract LiquidityDrive is Context, Ownable {
     }
 
     function donationsOf(address from) public view returns (uint256) {
-        return  _ethDonated[from]; 
+        return _ethDonated[from];
     }
 
     function availableOf(address from) public view returns (uint256) {
-        uint256 totalTokens = (totalClaimableTokens > 0) ? totalClaimableTokens : token.totalSupply().mul(estimatedPercentageOfSupply).div(100);
-        return (totalEthDonated > 0) ? totalTokens.mul(_ethDonated[from]).div(totalEthDonated) : 0;
+        uint256 totalTokens = (totalClaimableTokens > 0)
+            ? totalClaimableTokens
+            : token.totalSupply().mul(estimatedPercentageOfSupply).div(100);
+        return
+            (totalEthDonated > 0)
+                ? totalTokens.mul(_ethDonated[from]).div(totalEthDonated)
+                : 0;
     }
 
     function claimedOf(address from) public view returns (uint256) {
         return _claimed[from];
     }
-
 }
-

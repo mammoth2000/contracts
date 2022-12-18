@@ -1,11 +1,8 @@
-
-
 // SPDX-License-Identifier: Unlicensed
 
 pragma solidity ^0.8.17;
 
 contract Registry {
-
     address immutable Mammoth;
     address immutable Router;
     address immutable Ivory;
@@ -17,7 +14,18 @@ contract Registry {
     address immutable FlowData;
     address immutable IvoryTreasury;
 
-    constructor (address _Mammoth, address _Router, address _Ivory, address _MammothTreasury, address _BUSD, address _Ivory_BUSD_LP, address _BUSDTreasury, address _BUSDRedemptionPool, address _FlowData, address _IvoryTreasury ) {
+    constructor(
+        address _Mammoth,
+        address _Router,
+        address _Ivory,
+        address _MammothTreasury,
+        address _BUSD,
+        address _Ivory_BUSD_LP,
+        address _BUSDTreasury,
+        address _BUSDRedemptionPool,
+        address _FlowData,
+        address _IvoryTreasury
+    ) {
         Mammoth = _Mammoth;
         Router = _Router;
         Ivory = _Ivory;
@@ -29,5 +37,4 @@ contract Registry {
         FlowData = _FlowData;
         IvoryTreasury = _IvoryTreasury;
     }
-
-    }
+}

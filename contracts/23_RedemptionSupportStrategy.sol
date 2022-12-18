@@ -16,9 +16,7 @@ import "contracts/libs/Admin.sol";
 
 // this contracts sends IVORY to NetworkStack depending on peg and apr
 
-contract RedemptionSupportStrategy is Whitelist, Adminable  {
-
-
+contract RedemptionSupportStrategy is Whitelist, Adminable {
     address public backedTreasury; // 07_IvoryTreasury
     address public collateralRouter; // pancake router
     address public collateralTreasury; // 10_BUSDTreasury
@@ -26,12 +24,11 @@ contract RedemptionSupportStrategy is Whitelist, Adminable  {
     address public collateralRedemptionPool; // 10_BUSDredemtionPool
     address public redeemData; //22_redeemdata
 
-    uint256 public apr_precision = 10 * 10^6;
+    uint256 public apr_precision = (10 * 10) ^ 6;
 
     uint256 public daily_apr;
-    
-    bool public isPaused;
 
+    bool public isPaused;
 
     uint256 public lastSweep;
 
@@ -41,9 +38,15 @@ contract RedemptionSupportStrategy is Whitelist, Adminable  {
 
     uint256 constant MAX_JOBS = 200;
 
-
-    
-    constructor (address _redeemData, address _collateralRedemptionPool,address _reserve,address _backedTreasury,address _collateralRouter,address _collateralTreasury,address _coreTreasury) Ownable() {
+    constructor(
+        address _redeemData,
+        address _collateralRedemptionPool,
+        address _reserve,
+        address _backedTreasury,
+        address _collateralRouter,
+        address _collateralTreasury,
+        address _coreTreasury
+    ) Ownable() {
         backedTreasury = _backedTreasury;
         collateralRouter = _collateralRouter;
         collateralTreasury = _collateralTreasury;
@@ -52,12 +55,17 @@ contract RedemptionSupportStrategy is Whitelist, Adminable  {
         redeemData = _redeemData;
     }
 
-    function estimateCoreToCollateral(uint256 _coreAmount) public view returns (uint256 wethAmount, uint256 collateralAmount) {
-      return (wethAmount, collateralAmount);
-        }
+    function estimateCoreToCollateral(
+        uint256 _coreAmount
+    ) public view returns (uint256 wethAmount, uint256 collateralAmount) {
+        return (wethAmount, collateralAmount);
+    }
 
-    function available() public view returns (uint256 coreAmount, uint256 collateralAmount){
-        }
+    function available()
+        public
+        view
+        returns (uint256 coreAmount, uint256 collateralAmount)
+    {}
 
     function sweep() public {
         // if currentValue > something ?
@@ -65,15 +73,15 @@ contract RedemptionSupportStrategy is Whitelist, Adminable  {
 
     function updateDailyAPR(uint256 APR) public onlyWhitelisted {
         daily_apr = APR;
-
     }
 
     function updateMaxJobs(uint256 JOBS) public onlyWhitelisted {
         maxJobs = JOBS;
-
     }
 
-    function updateLiquidityThreshold(uint256 THRESHOLD) public onlyWhitelisted {
+    function updateLiquidityThreshold(
+        uint256 THRESHOLD
+    ) public onlyWhitelisted {
         liquidityThreshold = THRESHOLD;
     }
 
@@ -85,9 +93,9 @@ contract RedemptionSupportStrategy is Whitelist, Adminable  {
         collateralRouter = _ROUTER;
     }
 
-    function updateRedeemData(address REDEEMDATAADDRESS) public onlyWhitelisted {
+    function updateRedeemData(
+        address REDEEMDATAADDRESS
+    ) public onlyWhitelisted {
         redeemData = REDEEMDATAADDRESS;
-     }
-
+    }
 }
-

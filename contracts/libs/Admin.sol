@@ -7,7 +7,10 @@ import "@openzeppelin/contracts/utils/Context.sol";
 abstract contract Adminable is Context {
     address private _admin;
 
-    event AdminshipTransferred(address indexed previousAdmin, address indexed newAdmin);
+    event AdminshipTransferred(
+        address indexed previousAdmin,
+        address indexed newAdmin
+    );
 
     /**
      * @dev Initializes the contract setting the deployer as the initial admin.
@@ -47,7 +50,10 @@ abstract contract Adminable is Context {
      * Can only be called by the current admin.
      */
     function transferAdminship(address newAdmin) public virtual onlyAdmin {
-        require(newAdmin != address(0), "Ownable: new admin is the zero address");
+        require(
+            newAdmin != address(0),
+            "Ownable: new admin is the zero address"
+        );
         _setAdmin(newAdmin);
     }
 

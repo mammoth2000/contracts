@@ -17,7 +17,7 @@ contract MintableToken is StandardToken, Whitelist {
     bool public mintingFinished = false;
 
     using SafeMath for uint256;
-    
+
     modifier canMint() {
         require(!mintingFinished);
         _;
@@ -29,7 +29,10 @@ contract MintableToken is StandardToken, Whitelist {
      * @param _amount The amount of tokens to mint.
      * @return A boolean that indicates if the operation was successful.
      */
-    function mint(address _to, uint256 _amount) onlyWhitelisted canMint public virtual returns (bool) {
+    function mint(
+        address _to,
+        uint256 _amount
+    ) public virtual onlyWhitelisted canMint returns (bool) {
         require(_to != address(0));
         totalSupply_ = totalSupply_.add(_amount);
         balances[_to] = balances[_to].add(_amount);
@@ -37,5 +40,4 @@ contract MintableToken is StandardToken, Whitelist {
         emit Transfer(address(0), _to, _amount);
         return true;
     }
-
 }

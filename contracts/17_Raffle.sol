@@ -1,4 +1,3 @@
-
 // only abi is replicated
 
 // SPDX-License-Identifier: Unlicensed
@@ -12,10 +11,7 @@ import "contracts/libs/Admin.sol";
 
 pragma solidity ^0.8.17;
 
-
-// still being reverse engineered
-contract Raffle is Whitelist, Adminable  {
-
+contract Raffle is Whitelist, Adminable {
     using SafeMath for uint256;
 
     // address
@@ -46,61 +42,60 @@ contract Raffle is Whitelist, Adminable  {
 
     // structs
     struct Participants {
-            uint256 round;
-            uint256 currentContribution;
-            uint256 totalRounds;
-            uint256 totalContribution;
-            uint256 totalAwards;
-            uint256 wins;
+        uint256 round;
+        uint256 currentContribution;
+        uint256 totalRounds;
+        uint256 totalContribution;
+        uint256 totalAwards;
+        uint256 wins;
     }
 
-       struct Rounds {
-            uint256 winner_position;
-            address winner;
-            address maxWinner;
-            uint256 maxContribution;
-            uint256 maxThreshold;
-            uint256 pot;
-            uint256 award;
-            uint256 participants;
-            uint256 startBlock;
-            uint256 startTime;
-            uint256 endBlock;
-            uint256 endTime;
-            uint256 finalBlock;
-            uint256 finalTime;
+    struct Rounds {
+        uint256 winner_position;
+        address winner;
+        address maxWinner;
+        uint256 maxContribution;
+        uint256 maxThreshold;
+        uint256 pot;
+        uint256 award;
+        uint256 participants;
+        uint256 startBlock;
+        uint256 startTime;
+        uint256 endBlock;
+        uint256 endTime;
+        uint256 finalBlock;
+        uint256 finalTime;
     }
 
     struct status {
-            bool running;
-            uint256 currentRound;
-            uint256 currentStage;
-            uint256 lapsed;
-            uint256 pot;
-            uint256 award;
-            uint256 num_participants; 
-            uint256 maxContribution;
-
+        bool running;
+        uint256 currentRound;
+        uint256 currentStage;
+        uint256 lapsed;
+        uint256 pot;
+        uint256 award;
+        uint256 num_participants;
+        uint256 maxContribution;
     }
 
     // constructor
-    constructor (address _sponsorData, uint256 _contractStartTime) Adminable() {
-        require(_contractStartTime % roundDuration == 0, "please use midnight UTC timestamp");
+    constructor(address _sponsorData, uint256 _contractStartTime) Adminable() {
+        require(
+            _contractStartTime % roundDuration == 0,
+            "please use midnight UTC timestamp"
+        );
         contractStartTime = _contractStartTime;
         sponsorData = _sponsorData;
     }
 
     // view functions
-    function currentReward() public view returns (uint256)  {
+    function currentReward() public view returns (uint256) {}
 
-    }
-
-    function getWinner(uint256 _ROUND) public view returns (address)  {
+    function getWinner(uint256 _ROUND) public view returns (address) {
         return getWinners[_ROUND];
-
     }
 
-        function round()public view returns (uint256)  {
+    function round() public view returns (uint256) {
         uint256 timeDifference = block.timestamp - contractStartTime;
         uint roundNumber = timeDifference / 86400;
         return roundNumber;
@@ -109,8 +104,11 @@ contract Raffle is Whitelist, Adminable  {
     // internal functions
 
     function findWinner(uint256 min, uint256 max) internal view {
-    // only for testing
-    uint256 winnerTicket = min.add(uint256(keccak256(abi.encodePacked(block.timestamp, min, max))) % (max - min));
+        // only for testing
+        uint256 winnerTicket = min.add(
+            uint256(keccak256(abi.encodePacked(block.timestamp, min, max))) %
+                (max - min)
+        );
     }
 
     // write functions
@@ -127,8 +125,8 @@ contract Raffle is Whitelist, Adminable  {
 
     function updateMinimumAmount(uint256 AMOUNT) public onlyAdmin {
         minimimumAmount = AMOUNT;
-
     }
+
     function updateRunStatus(bool PAUSED) public onlyAdmin {
         isPaused = PAUSED;
     }
@@ -138,18 +136,19 @@ contract Raffle is Whitelist, Adminable  {
     }
 
     // this function gets input from other contracts
-    
+
     function add(address PARTICIPANT, uint256 AMOUNT) public onlyWhitelisted {
         // add to the struct participant
-        uint256 totalContributionSoFar = participants[PARTICIPANT].totalContribution;
+        uint256 totalContributionSoFar = participants[PARTICIPANT]
+            .totalContribution;
         participants[PARTICIPANT].round = round();
         participants[PARTICIPANT].currentContribution = AMOUNT;
         participants[PARTICIPANT].totalRounds;
-        participants[PARTICIPANT].totalContribution = totalContributionSoFar + AMOUNT;
+        participants[PARTICIPANT].totalContribution =
+            totalContributionSoFar +
+            AMOUNT;
         participants[PARTICIPANT].totalAwards = 0;
-    //    participants[PARTICIPANT].wins = winsSoFar; we writing to this at a later point
-    //  [p.round, p.currentContribution, p.totalRounds,p.totalContribution,p.totalAwards,p.wins] = [round(),AMOUNT,1,1,1,1 ];
+        //    participants[PARTICIPANT].wins = winsSoFar; we writing to this at a later point
+        //  [p.round, p.currentContribution, p.totalRounds,p.totalContribution,p.totalAwards,p.wins] = [round(),AMOUNT,1,1,1,1 ];
     }
-       
-
 }

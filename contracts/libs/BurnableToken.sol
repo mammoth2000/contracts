@@ -12,7 +12,6 @@ import "contracts/libs/StandardToken.sol";
 import "contracts/libs/MintableToken.sol";
 
 contract BurnableToken is MintableToken {
-    
     using SafeMath for uint256;
 
     event Burn(address indexed burner, uint256 value);

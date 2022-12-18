@@ -15,71 +15,74 @@ import "contracts/libs/Admin.sol";
 
 // this contracts sends IVORY to NetworkStack depending on peg and apr
 
-contract PegSupportTreasuryStrategy is Whitelist, Adminable  {
-
+contract PegSupportTreasuryStrategy is Whitelist, Adminable {
     address public reserve; // 16_IvoryReserve
     address public backedTreasury; // 07_IvoryTreasury
     address public collateralRouter; // pancake router
     address public collateralTreasury; // 10_BUSDTreasury
     address public coreTreasury; // 08_MammothTreasury
 
-    uint256 public apr_precision = 10 * 10^6;
+    uint256 public apr_precision = (10 * 10) ^ 6;
     uint256 public available;
     uint256 public daily_apr;
-    
+
     bool public isPaused;
-    
+
     bool public isAbovePeg;
 
     uint256 public lastSweep;
 
     uint256 public liquidityThreshold;
 
-
-    
-    constructor (address _reserve,address _backedTreasury,address _collateralRouter,address _collateralTreasury,address _coreTreasury) Ownable() {
+    constructor(
+        address _reserve,
+        address _backedTreasury,
+        address _collateralRouter,
+        address _collateralTreasury,
+        address _coreTreasury
+    ) Ownable() {
         reserve = _reserve;
         backedTreasury = _backedTreasury;
         collateralRouter = _collateralRouter;
         collateralTreasury = _collateralTreasury;
         coreTreasury = _coreTreasury;
-        
     }
 
-    function estimateCoreToCollateral(uint256 _coreAmount) public view returns (uint256 wethAmount, uint256 collateralAmount) {
-      // Calculate the WETH amount based on the given Core amount
-     // wethAmount = _coreAmount * wethPrice;
+    function estimateCoreToCollateral(
+        uint25ount
+    ) public view returns (uint256 wethAmount, uint256 collateralAmount) {
+        // Calculate the WETH amount based on the given Core amount
+        // wethAmount = _coreAmount * wethPrice;
 
-      // Calculate the collateral amount based on the given Core amount and the WETH amount
-     // collateralAmount = _coreAmount * collateralRatio / wethAmount;
+        // Calculate the collateral amount based on the given Core amount and the WETH amount
+        // collateralAmount = _coreAmount * collateralRatio / wethAmount;
 
-      return (wethAmount, collateralAmount);
+        return (wethAmount, collateralAmount);
     }
-
 
     function sweep() public {
-
         // if currentValue > something ?
-
     }
 
     function updateDailyAPR(uint256 APR) public onlyWhitelisted {
         daily_apr = APR;
-
     }
 
     function updateReserve(address RESERVEADDRESS) public onlyWhitelisted {
-            reserve = RESERVEADDRESS;
+        reserve = RESERVEADDRESS;
+    }
 
-        }
-
-    function updateLiquidityThreshold(uint256 THRESHOLD) public onlyWhitelisted {
-            liquidityThreshold = THRESHOLD;
-
-        }
-
+    function updateLiquidityThreshold(
+        uint256 THRESHOLD
+    ) public onlyWhitelisted {
+        liquidityThreshold = THRESHOLD;
+    }
 
     function updateRunStatus(bool PAUSED) public onlyWhitelisted {
+        isPaused = PAUSED;
+    }
+}
+tus(bool PAUSED) public onlyWhitelisted {
     isPaused = PAUSED;
 
         }

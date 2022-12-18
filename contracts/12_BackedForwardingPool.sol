@@ -1,4 +1,3 @@
-
 // SPDX-License-Identifier: Unlicensed
 
 pragma solidity ^0.8.17;
@@ -21,29 +20,28 @@ import "contracts/libs/SafeMath.sol";
 import "contracts/noui/MammothPoolDistributor.sol";
 import "contracts/noui/IvoryDollarDistributor.sol";
 
-contract BackedForwardingPool  is Ownable {
+contract BackedForwardingPool is Ownable {
     using SafeMath for uint256;
     using Address for address;
-    
-    
+
     address public backedAddress; //TRUNK Stable coin
 
     IERC20 public backedToken;
-    
 
-    constructor (address _backedAddress)  Ownable() {
+    constructor(address _backedAddress) Ownable() {
         backedAddress = address(_backedAddress);
         //setup the core tokens
         backedToken = IERC20(backedAddress);
-
     }
 
     /// @dev This is how you pump pure "drip" dividends into the system
     function donatePool(uint amount) public {
-        require(backedToken.transferFrom(msg.sender, address(this),amount), "Failed to transfer backed tokens");
-        
+        require(
+            backedToken.transferFrom(msg.sender, address(this), amount),
+            "Failed to transfer backed tokens"
+        );
+
         //transfer tokens to the owner, we are done
         backedToken.transfer(owner(), amount);
     }
-    
 }
